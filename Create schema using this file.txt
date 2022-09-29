@@ -1,7 +1,7 @@
 create DATABASE Seminar;
 use Seminar;
 
-drop table Labels;
+-- drop table Labels;
 
 CREATE TABLE Labels(
 ID VARCHAR(255) PRIMARY KEY,
@@ -38,7 +38,7 @@ descriptionHTML VARCHAR(255) not null default '',
 lastModified DATETIME default Current_timestamp
 );
 
-Drop table sessions;
+-- Drop table sessions;
 
 CREATE TABLE Sessions(
 ID VARCHAR(255) PRIMARY KEY,
@@ -88,7 +88,7 @@ endDate datetime,
 FOREIGN KEY (contributorsId) REFERENCES contributors(id)
 );
 
-drop TABLE contributorsSessions;
+-- drop TABLE contributorsSessions;
 
 create table ContributorsSessions(
 id int PRIMARY KEY AUTO_INCREMENT,
