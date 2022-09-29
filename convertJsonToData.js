@@ -1,7 +1,7 @@
 let data = require('./JUST DO IT.json')
-console.log(data);
+// console.log(data);
 let {contributors} = data;
-console.log(contributors);
+// console.log(contributors);
 let columnNamesContributors = ['id', 'honorific', 'firstName', 'lastName', 'postNominal', 'email',
  'company', 'position', 'phone', 'twitter', 'facebook', 'linkedin', 'instagram', 'youtube',
   'bio', 'bio_HTML', 'headshotURL', 'headshot2xURL', 'notes', 'lastModified'];
@@ -16,7 +16,7 @@ let columnNamesSessions = ['id', 'name', 'code','description', 'description_HTML
 let {tracks} = data;
 let columnNamesTracks = ['id', 'name', 'description', 'description_HTML', 'color','lastModified'];
 
-console.log();
+// console.log();
 
 function convertDate(date) {
     date = date.replace(/[T]/,' ');
@@ -59,7 +59,7 @@ function getMainTableData(data,columnNames) {
     return values;
 }
 
-
+//Retrieving main table data
 let contributorsInsert = getMainTableData(contributors,columnNamesContributors);
 let labelsInsert = getMainTableData(labels,columnNamesLabels);
 let resourcesInsert = getMainTableData(resources,columnNamesResources);
@@ -74,7 +74,8 @@ let conn = mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'root',
-    database:'seminar'
+    database:'seminar',
+    // port: 3307 //change this if you need to default is 3306
 });
 
 function insertData(tableName, columns ,dataToInsert) {
@@ -88,13 +89,13 @@ function insertData(tableName, columns ,dataToInsert) {
         })
     })
 }
-
+//Have to insert one by one
 // insertData('contributors','',contributorsInsert)
 // insertData('labels','',labelsInsert)
 // insertData('resources','',resourcesInsert);
 // insertData('locations','',locationsInsert);
-// insertData('sessions','',sessionsInsert);
 // insertData('tracks','',tracksInsert);
+// insertData('sessions','',sessionsInsert);
 
 function getJoinedTablesData(data,mainDataName,subDataName){
     let returnData =[];
@@ -102,8 +103,8 @@ function getJoinedTablesData(data,mainDataName,subDataName){
         for (let i = 0; i < data[key].length; i++) {
             if (key == mainDataName) {
                 for (let j = 0; j < data[key][i][subDataName].length; j++) {
-                if (Object.keys(data[key][i][subDataName].includes('tracks')) && mainDataName == 'locations') {
-                    // console.log('sdfasd');
+                if (Object.keys(data[key][i][subDataName].includes('tracks')) && mainDataName == 'locations' && subDataName != 'availability') {
+                    console.log('sdfasd');
                     returnData.push(`('${data[key][i]['id']}','${data[key][i][subDataName][j]}')`);
                 }
                 if (Object.keys(data[key][i][subDataName].includes('sessions')) && mainDataName == 'resources') {
@@ -152,9 +153,9 @@ function getJoinedTablesData(data,mainDataName,subDataName){
 // console.log(tracksLabels);// empty
 
 
-//INSERTING DATA
+//INSERTING DATA has to be done one by one
 // insertData('contributorsAvailability','(contributorsId,startDate,endDate)',contributorsAvailabilityInsert);
-// insertData('contributorsSessions','(contributorsId,sessionsId,role)',contributorsSessions);
+// insertData('contributorsSessions','(contributorsId,sessionsId,role)',contributorsSessionsInsert);
 // insertData('locationsAvailability','(locationsId,startDate,endDate)',locationsAvailability);
 // insertData('locationsTracks','(locationsId,tracksId)',locationsTracks);
 // insertData('resourcesSessions','(resourcesId,sessionsId)',resourcesSessions);
