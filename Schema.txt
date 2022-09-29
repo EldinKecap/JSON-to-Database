@@ -1,0 +1,172 @@
+create DATABASE Seminar;
+use Seminar;
+
+drop table Labels;
+
+CREATE TABLE Labels(
+ID VARCHAR(255) PRIMARY KEY,
+name varchar(255) not null,
+description varchar(255) ,
+descriptionHTML VARCHAR(255) not null default '',
+lastModified DATETIME default Current_timestamp
+);
+
+select * from labels;
+
+create TABLE Tracks(
+ID VARCHAR(255) PRIMARY KEY,
+name varchar(255) not null,
+description varchar(255) ,
+descriptionHTML VARCHAR(255) not null default '',
+color VARCHAR(45),
+lastModified DATETIME default Current_timestamp
+);
+
+CREATE TABLE Locations(
+ID VARCHAR(255) PRIMARY KEY,
+name varchar(255) not null,
+description varchar(255) ,
+descriptionHTML VARCHAR(255) not null default '',
+lastModified DATETIME default Current_timestamp
+);
+
+CREATE TABLE Resources(
+ID VARCHAR(255) PRIMARY KEY,
+name varchar(255) not null,
+description varchar(255) ,
+descriptionHTML VARCHAR(255) not null default '',
+lastModified DATETIME default Current_timestamp
+);
+
+Drop table sessions;
+
+CREATE TABLE Sessions(
+ID VARCHAR(255) PRIMARY KEY,
+name varchar(255),
+code varchar(5),
+description varchar(255),
+descriptionHTML VARCHAR(255) not null default '',
+track VARCHAR(255),
+color varchar(45),
+startDate DATETIME,
+endDate DATETIME,
+location varchar(255),
+notes VARCHAR(255),
+lastModified DATETIME default Current_timestamp,
+FOREIGN KEY (track) references Tracks(id),
+FOREIGN KEY (location) references Locations(id)
+);
+
+CREATE TABLE Contributors(
+id VARCHAR(255) PRIMARY Key ,
+honorific varchar(45),
+firstName varchar(255),
+lastName varchar(255),
+postNominal VARCHAR(255),
+email varchar(255),
+company varchar(255),
+position varchar(255),
+phone varchar(255),
+twitter VARCHAR(255),
+facebook varchar(255),
+linkedIn varchar(255),
+instagram varchar(255),
+youtube varchar(255),
+bio varchar(255),
+bioHTML varchar(255),
+headshotUrl varchar(255),
+headshot2xUrl varchar(255),
+notes VARCHAR(255),
+lastModified VARCHAR(255)
+);
+
+create TABLE ContributorsAvailability(
+id int PRIMARY KEY AUTO_INCREMENT,
+contributorsId varchar(255),
+startDate DATETIME,
+endDate datetime,
+FOREIGN KEY (contributorsId) REFERENCES contributors(id)
+);
+
+drop TABLE contributorsSessions;
+
+create table ContributorsSessions(
+id int PRIMARY KEY AUTO_INCREMENT,
+contributorsId VARCHAR(255),
+sessionsId varchar(255),
+role VARCHAR(45),
+foreign key (contributorsId) references contributors(id),
+foreign key (sessionsId) references sessions(id)  
+);
+
+CREATE table ContributorsLabels(
+id int PRIMARY key AUTO_INCREMENT,
+contributorsId VARCHAR(255),
+labelsId varchar(255),
+foreign key (contributorsId) references contributors(id),
+foreign key (labelsId) references labels(id)
+);
+
+CREATE table ResourcesLabels(
+id int PRIMARY key AUTO_INCREMENT,
+resourcesId VARCHAR(255),
+labelsId varchar(255),
+foreign key (resourcesId) references resources(id),
+foreign key (labelsId) references labels(id)
+);
+
+CREATE table ResourcesSessions(
+id int PRIMARY key AUTO_INCREMENT,
+resourcesId VARCHAR(255),
+sessionsId varchar(255),
+foreign key (resourcesId) references resources(id),
+foreign key (sessionsId) references sessions(id)
+);
+
+create TABLE LocationsAvailability(
+id int PRIMARY KEY AUTO_INCREMENT,
+locationsId varchar(255),
+startDate DATETIME,
+endDate datetime,
+FOREIGN KEY (locationsId) REFERENCES locations(id)
+);
+
+CREATE table LocationsLabels(
+id int PRIMARY key AUTO_INCREMENT,
+locationsId VARCHAR(255),
+labelsId varchar(255),
+foreign key (locationsId) references locations(id),
+foreign key (labelsId) references labels(id)
+);
+
+CREATE table LocationsTracks(
+id int PRIMARY key AUTO_INCREMENT,
+locationsId VARCHAR(255),
+tracksId varchar(255),
+foreign key (locationsId) references locations(id),
+foreign key (tracksId) references tracks(id)
+);
+
+CREATE table TracksLabels(
+id int PRIMARY key AUTO_INCREMENT,
+tracksId varchar(255),
+labelsId VARCHAR(255),
+foreign key (tracksId) references tracks(id),
+foreign key (labelsId) references labels(id)
+);
+
+CREATE table SessionsLabels(
+id int PRIMARY key AUTO_INCREMENT,
+sessionsId varchar(255),
+labelsId VARCHAR(255),
+foreign key (SessionsId) references Sessions(id),
+foreign key (labelsId) references labels(id)
+);
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+insert into sessions(id) values ('f9d7344f-85ba-4339-a5ed-1e2a8cde01b1');
+
+Select * from contributorsLabels;
+/*INSERT INTO contributorsSessions(contributorsId,sessionsId,role) VALUES ('a59c02af-2fcd-41b1-ad4f-e0ebae08121b','2b21adaf-61a7-4a76-b8be-a820ecdcaa0e',null),('a59c02af-2fcd-41b1-ad4f-e0ebae08121b','0ee83ea2-35fc-4f50-91c9-de7602bbf93b',null),('a59c02af-2fcd-41b1-ad4f-e0ebae08121b','e0206eb4-180e-42b7-b430-3940926d5c82',null),('a59c02af-2fcd-41b1-ad4f-e0ebae08121b','ddb2ca3e-ef92-4bed-b8a5-cb3b4bb35b75',null),('a59c02af-2fcd-41b1-ad4f-e0ebae08121b','f9d7344f-85ba-4339-a5ed-1e2a8cde01b1',null),('3533097a-3a58-40d6-a86f-34c4639b814f','9a2a73cd-d9b7-426c-a51a-73897b5a9993',null),('3533097a-3a58-40d6-a86f-34c4639b814f','bb6402ec-fa84-410a-8e57-23f46c5e3ca4',null),('3533097a-3a58-40d6-a86f-34c4639b814f','f372cc81-85b7-411a-a5ba-bbd3da7922cb',null),('3533097a-3a58-40d6-a86f-34c4639b814f','b35544c5-2b18-4ddd-91bd-4fc257d2c06c',null),('3533097a-3a58-40d6-a86f-34c4639b814f','e22f7275-5cfa-4961-86dd-76281c7adc44',null),('d157bfc9-f956-42e6-8781-a745a31a71e6','97bbf95b-6572-4916-a55f-aaf2b02bf4ad',null),('d157bfc9-f956-42e6-8781-a745a31a71e6','9a2a73cd-d9b7-426c-a51a-73897b5a9993',null),('d157bfc9-f956-42e6-8781-a745a31a71e6','84b7c252-cb0e-4eab-8539-8e2b9acdc9cd',null),('d157bfc9-f956-42e6-8781-a745a31a71e6','5decf8ef-57f1-4d06-8325-5068629c9b5c',null),('d157bfc9-f956-42e6-8781-a745a31a71e6','f9d7344f-85ba-4339-a5ed-1e2a8cde01b1',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','0ee83ea2-35fc-4f50-91c9-de7602bbf93b',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','9a2a73cd-d9b7-426c-a51a-73897b5a9993',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','f511b781-8022-458d-8468-a1470bfc2607',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','bb2ad60e-5385-4bad-9f41-3d512fbde8d8',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','8173865d-2cd5-4d08-b0b2-956a6d9580ec',null),('a12bfcd6-a652-4392-acee-5ea50f25ec2e','84b7c252-cb0e-4eab-8539-8e2b9acdc9cd',null),('976091d6-1892-409d-88f2-be33b12bd601','9a2a73cd-d9b7-426c-a51a-73897b5a9993',null),('976091d6-1892-409d-88f2-be33b12bd601','95e0f4b1-c239-4556-b6fa-df0fdb7cdadf',null),('976091d6-1892-409d-88f2-be33b12bd601','f7189f9e-bcaa-4d8b-81d3-6acb19748232',null);
+*/
+select * from locationstracks;
